@@ -7,3 +7,101 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.root {
+  /* Primária (Laranja) */
+  --color-primary-500: #fe9a00;
+  --color-primary-600: #e17100;
+  --color-primary-700: #bb4d00;
+  --color-primary-alpha-80: rgba(225, 113, 0, 0.8);
+  --color-primary-alpha-30: rgba(225, 113, 0, 0.3);
+  --color-primary-border: rgba(254, 154, 0, 0.8);
+  --color-primary-border-soft: rgba(254, 154, 0, 0.3);
+
+  /* Marrom (Gradients/Accent) */
+  --color-brown-dark: rgba(123, 51, 6, 0.4);
+  --color-brown-dark-soft: rgba(123, 51, 6, 0.3);
+  --color-brown-light: rgba(151, 60, 0, 0.4);
+  --color-brown-light-soft: rgba(151, 60, 0, 0.2);
+
+  /* Branco com opacidades */
+  --color-white: #ffffff;
+  --color-white-90: rgba(255, 255, 255, 0.9);
+  --color-white-80: rgba(255, 255, 255, 0.8);
+  --color-white-70: rgba(255, 255, 255, 0.7);
+  --color-white-60: rgba(255, 255, 255, 0.6);
+  --color-white-50: rgba(255, 255, 255, 0.5);
+  --color-white-40: rgba(255, 255, 255, 0.4);
+  --color-white-30: rgba(255, 255, 255, 0.3);
+  --color-white-20: rgba(255, 255, 255, 0.2);
+  --color-white-10: rgba(255, 255, 255, 0.1);
+  --color-white-05: rgba(255, 255, 255, 0.05);
+
+  /* Overlay/Background */
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-background: #000000;
+
+  /* Texto Especial */
+  --color-text-highlight: rgba(254, 243, 198, 0.8);
+  --color-placeholder: #a6a09b;
+
+  /*Tipografia*/
+
+  /* Fonte */
+  --font-family: "Arimo", sans-serif;
+  --font-weight-normal: 400;
+
+  /* Tamanhos */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-2xl: 1.875rem;
+
+  /* Line Heights */
+  --line-height-tight: 1.25rem;
+  --line-height-snug: 1.5rem;
+  --line-height-normal: 1.75rem;
+  --line-height-relaxed: 2.25rem;
+  --line-height-prose: 1.625;
+
+  /*Espaçamentos*/
+
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+
+  /*Border Radius*/
+
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+
+  /*Sombras*/
+
+  --shadow-sm: 0px 4px 6px -4px rgba(0, 0, 0, 0.1),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  --shadow-lg: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /*Bordas*/
+
+  --border-width: 1px;
+  --border-width-2: 2px;
+
+  /*Tamanhos Comuns*/
+
+  --size-icon-sm: 1rem;
+  --size-icon-md: 1.25rem;
+  --size-icon-lg: 1.5rem;
+  --size-checkbox: 1.75rem;
+  --size-icon-box: 3rem;
+
+  /*Transições */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+}
