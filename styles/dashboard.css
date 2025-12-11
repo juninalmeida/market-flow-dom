@@ -50,6 +50,30 @@
   gap: clamp(0.3rem, 0.25rem + 0.5vw, 0.5rem);
 }
 
+@media (min-width: 768px) {
+  .stats {
+    flex-direction: column;
+  }
+
+  .stats__card {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .stats__label {
+    order: 1;
+  }
+
+  .stats__value {
+    order: 2;
+  }
+
+  .stats__icon-box {
+    order: 3;
+  }
+}
+
 .stats__label {
   font-size: clamp(0.625rem, 0.5rem + 0.5vw, 0.875rem);
   line-height: 1.3;

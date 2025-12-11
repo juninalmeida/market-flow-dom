@@ -117,6 +117,69 @@
               Adicionar Item
             </button>
           </form>
+
+          <ul class="shopping-list__items">
+            <li class="item">
+              <button
+                class="item__checkbox"
+                aria-label="Marcar como comprado"
+              ></button>
+
+              <div class="item__info">
+                <p class="item__name">Tomates</p>
+                <p class="item__qty">1kg</p>
+              </div>
+              <button class="item__delete" aria-label="Remover item">
+                <img
+                  src="./assets/icons/trashicon.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </button>
+            </li>
+
+            <li class="item">
+              <button
+                class="item__checkbox"
+                aria-label="Marcar como comprado"
+              ></button>
+              <div class="item__info">
+                <p class="item__name">Cebolas</p>
+                <p class="item__qty">500g</p>
+              </div>
+              <button class="item__delete" aria-label="Remover item">
+                <img
+                  src="./assets/icons/trashicon.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </button>
+            </li>
+
+            <li class="item item--completed">
+              <button
+                class="item__checkbox item__checkbox--checked"
+                aria-label="Desmarcar como comprado"
+              >
+                <img src="./assets/icons/itemcheck.svg" alt="" />
+              </button>
+              <div class="item__info">
+                <p class="item__name">Alho</p>
+                <p class="item__qty">1 cabeça</p>
+              </div>
+              <button class="item__delete" aria-label="Remover item">
+                <img
+                  src="./assets/icons/trashicon.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </button>
+            </li>
+          </ul>
+
+          <div class="shopping-list__progress">
+            <div class="shopping-list__progress-bar "></div>
+          </div>
         </section>
       </main>
     </div>

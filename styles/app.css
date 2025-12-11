@@ -37,3 +37,18 @@
   flex-direction: column;
   gap: clamp(1rem, 0.5rem + 2vw, 1.5rem);
 }
+
+@media (min-width: 768px) {
+  .app__content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .dashboard {
+    flex: 0 0 32%;
+  }
+
+  .shopping-list {
+    flex: 1;
+  }
+}
