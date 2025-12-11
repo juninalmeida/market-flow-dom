@@ -81,15 +81,42 @@
 
           <article class="tip">
             <h3 class="tip__title">Dica do Dia</h3>
-            <p class="tip__text">Compre produtos da estação para economizar e apoiar produtores locais</p>
+            <p class="tip__text">
+              Compre produtos da estação para economizar e apoiar produtores
+              locais
+            </p>
           </article>
         </section>
 
-        <section class="shoppinp-list card">
-          <header class="shoppinp-list__header">
+        <section class="shopping-list card">
+          <header class="shopping-list__header">
             <h2 class="shopping-list__title">Lista de Compras</h2>
-            <p class="shopping_list__subtitle">1 de 3 itens comprados</p>
+            <p class="shopping-list__subtitle">1 de 3 itens comprados</p>
           </header>
+
+          <form class="shopping-list__form">
+            <div class="shopping-list__inputs">
+              <input
+                type="text"
+                class="shopping-list__input shopping-list__input--name"
+                placeholder="Nome do item..."
+              />
+              <input
+                type="text"
+                class="shopping-list__input shopping-list__input--qty"
+                placeholder="Quantidade"
+              />
+            </div>
+            <button type="submit" class="shopping-list__btn">
+              <img
+                src="./assets/icons/same.svg"
+                alt=""
+                class="shopping-list__btn-icon"
+                aria-hidden="true"
+              />
+              Adicionar Item
+            </button>
+          </form>
         </section>
       </main>
     </div>
