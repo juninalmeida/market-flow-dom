@@ -8,7 +8,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.root {
+body {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-normal);
+  background-color: var(--color-background);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+:root {
   /* Primária (Laranja) */
   --color-primary-500: #fe9a00;
   --color-primary-600: #e17100;

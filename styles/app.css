@@ -1,0 +1,35 @@
+.app {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+.app__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.app__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-overlay);
+  z-index: 1;
+}
+
+.app__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+
+  padding: clamp(1rem, 0.5rem + 2vw, 1.5rem);
+
+  max-width: min(1280px, 90vw);
+  margin-inline: auto;
+}
