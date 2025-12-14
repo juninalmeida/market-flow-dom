@@ -215,3 +215,13 @@
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-sm);
 }
+
+.item--highlight {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.shopping-list__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

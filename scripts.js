@@ -1,8 +1,6 @@
 (() => {
   "use strict";
 
-  console.log("JS CARREGOU");
-
   const selectors = {
     form: ".shopping-list__form",
     nameInput: ".shopping-list__input--name",
@@ -14,6 +12,8 @@
     statTotal: '[data-stat="total"]',
     statBought: '[data-stat="bought"]',
     statRemaining: '[data-stat="remaining"]',
+
+    addButton: ".shopping-list__btn",
   };
 
   const elements = {
@@ -26,14 +26,8 @@
     statTotal: document.querySelector(selectors.statTotal),
     statBought: document.querySelector(selectors.statBought),
     statRemaining: document.querySelector(selectors.statRemaining),
+    addButton: document.querySelector(selectors.addButton),
   };
-
-  console.table(
-    Object.entries(elements).map(([key, el]) => ({
-      element: key,
-      found: Boolean(el),
-    }))
-  );
 
   function assertRequiredElements() {
     const missingKeys = Object.entries(elements)
@@ -41,7 +35,6 @@
       .map(([key]) => key);
 
     if (missingKeys.length > 0) {
-      console.error(" Elementos obrigatórios não encontrados:", missingKeys);
       return false;
     }
 
@@ -50,6 +43,40 @@
 
   function getItems() {
     return Array.from(elements.itemsList.querySelectorAll(".item"));
+  }
+
+  function findDuplicateItem(normalizedName) {
+    const items = getItems();
+
+    for (let i = 0; i < items.length; i++) {
+      const nameEl = items[i].querySelector(".item__name");
+      if (!nameEl) continue;
+
+      const currentName = normalizeText(nameEl.textContent);
+
+      if (currentName === normalizedName) {
+        return items[i];
+      }
+    }
+
+    return null;
+  }
+
+  function hasDuplicateItem(normalizedName) {
+    const items = getItems();
+
+    for (let i = 0; i < items.length; i++) {
+      const nameEl = items[i].querySelector(".item__name");
+      if (!nameEl) continue;
+
+      const existingNormalized = normalizeText(nameEl.textContent);
+
+      if (existingNormalized === normalizedName) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   function getStats(items) {
@@ -131,6 +158,8 @@
       console.log("Ajuste final (blur):", value, "→", value.replace(/k$/, ""));
       input.value = value.replace(/k$/, "");
     }
+
+    updateAddButtonState();
   }
 
   function sanitizeNameValue(value) {
@@ -145,6 +174,8 @@
       console.log("Limpando nome:", input.value, "→", sanitized);
       input.value = sanitized;
     }
+
+    updateAddButtonState();
   }
 
   function handleQtyInput(event) {
@@ -155,6 +186,8 @@
       console.log("Limpando quantidade:", input.value, "→", sanitized);
       input.value = sanitized;
     }
+
+    updateAddButtonState();
   }
 
   function handleFormSubmit(event) {
@@ -163,7 +196,7 @@
     const name = sanitizeNameValue(elements.nameInput.value).trim();
     const qty = sanitizeQtyValue(elements.qtyInput.value);
 
-    const qtyStrictPattern = /^\d+(kg|g)?$/;
+    const qtyStrictPattern = /^\d+(kg|g)$/;
 
     if (name.length === 0) {
       console.warn("Nome é obrigatório.");
@@ -176,18 +209,38 @@
       return;
     }
 
+    const normalizedName = normalizeText(name);
+    const duplicateItem = findDuplicateItem(normalizedName);
+
+    if (duplicateItem) {
+      console.warn("Esse item já existe na lista.");
+      highlightItem(duplicateItem);
+      elements.nameInput.focus();
+      return;
+    }
+
     const newItem = createItemElement({ name, qty });
     elements.itemsList.appendChild(newItem);
 
     elements.form.reset();
+
+    updateAddButtonState();
+
     elements.nameInput.focus();
 
     refreshUI();
-
-    console.log("[submit] item inserido", { name, qty });
   }
 
   function handleItemsListClick(event) {
+    const deleteButton = event.target.closest(".item__delete");
+    if (deleteButton) {
+      const item = deleteButton.closest(".item");
+      if (!item) return;
+
+      item.remove();
+      refreshUI();
+    }
+
     const checkboxButton = event.target.closest(".item__checkbox");
     if (!checkboxButton) return;
 
@@ -200,8 +253,6 @@
     setCheckboxState(checkboxButton, willBeCompleted);
 
     refreshUI();
-
-    console.log("[toggle]", { willBeCompleted });
   }
 
   function setCheckboxState(checkboxButton, isCompleted) {
@@ -254,11 +305,32 @@
       elements.subtitle.textContent =
         stats.bought + " de " + stats.total + " itens comprados";
     }
+  }
 
-    console.group("[refreshUI]");
-    console.log("items:", items);
-    console.log("stats:", stats);
-    console.groupEnd();
+  function normalizeText(value) {
+    return value.trim().replace(/\s+/g, " ").toLowerCase();
+  }
+
+  function highlightItem(item) {
+    item.classList.add("item--highlight");
+
+    item.scrollIntoView({ block: "center" });
+
+    window.setTimeout(() => {
+      item.classList.remove("item--highlight");
+    }, 700);
+  }
+
+  function updateAddButtonState() {
+    const name = sanitizeNameValue(elements.nameInput.value).trim();
+    const qty = sanitizeQtyValue(elements.qtyInput.value);
+
+    const qtyStrictPattern = /^\d+(kg|g)$/;
+    const isQtyValid = qty.length > 0 && qtyStrictPattern.test(qty);
+
+    const isFormValid = name.length > 0 && isQtyValid;
+
+    elements.addButton.disabled = !isFormValid;
   }
 
   function init() {
@@ -274,13 +346,9 @@
 
     elements.qtyInput.addEventListener("input", handleQtyInput);
 
-    refreshUI();
+    updateAddButtonState();
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key.toLowerCase() === "r") {
-        refreshUI();
-      }
-    });
+    refreshUI();
   }
 
   init();
