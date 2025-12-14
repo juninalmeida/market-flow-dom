@@ -41,7 +41,7 @@
       .map(([key]) => key);
 
     if (missingKeys.length > 0) {
-      console.error("❌ Elementos obrigatórios não encontrados:", missingKeys);
+      console.error(" Elementos obrigatórios não encontrados:", missingKeys);
       return false;
     }
 
@@ -62,6 +62,50 @@
     const remaining = total - bought;
 
     return { total, bought, remaining };
+  }
+
+  function createItemElement(data) {
+    const item = document.createElement("li");
+    item.classList.add("item");
+
+    const checkboxButton = document.createElement("button");
+    checkboxButton.classList.add("item__checkbox");
+    checkboxButton.type = "button";
+    checkboxButton.setAttribute("aria-label", "Marcar como comprado");
+
+    const info = document.createElement("div");
+    info.classList.add("item__info");
+
+    const nameEl = document.createElement("p");
+    nameEl.classList.add("item__name");
+    nameEl.textContent = data.name;
+
+    info.appendChild(nameEl);
+
+    if (data.qty.length > 0) {
+      const qtyEl = document.createElement("p");
+      qtyEl.classList.add("item__qty");
+      qtyEl.textContent = data.qty;
+      info.appendChild(qtyEl);
+    }
+
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("item__delete");
+    deleteButton.type = "button";
+    deleteButton.setAttribute("aria-label", "Remover item");
+
+    const trashIcon = document.createElement("img");
+    trashIcon.src = "./assets/icons/trashicon.svg";
+    trashIcon.alt = "";
+    trashIcon.setAttribute("aria-hidden", "true");
+
+    deleteButton.appendChild(trashIcon);
+
+    item.appendChild(checkboxButton);
+    item.appendChild(info);
+    item.appendChild(deleteButton);
+
+    return item;
   }
 
   function sanitizeQtyValue(value) {
@@ -113,6 +157,76 @@
     }
   }
 
+  function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const name = sanitizeNameValue(elements.nameInput.value).trim();
+    const qty = sanitizeQtyValue(elements.qtyInput.value);
+
+    const qtyStrictPattern = /^\d+(kg|g)?$/;
+
+    if (name.length === 0) {
+      console.warn("Nome é obrigatório.");
+      elements.nameInput.focus();
+      return;
+    }
+    if (qty.length > 0 && !qtyStrictPattern.test(qty)) {
+      console.warn("Quantidade inválida. Use 10, 10g ou 10kg");
+      elements.qtyInput.focus();
+      return;
+    }
+
+    const newItem = createItemElement({ name, qty });
+    elements.itemsList.appendChild(newItem);
+
+    elements.form.reset();
+    elements.nameInput.focus();
+
+    refreshUI();
+
+    console.log("[submit] item inserido", { name, qty });
+  }
+
+  function handleItemsListClick(event) {
+    const checkboxButton = event.target.closest(".item__checkbox");
+    if (!checkboxButton) return;
+
+    const item = checkboxButton.closest(".item");
+    if (!item) return;
+
+    const willBeCompleted = !item.classList.contains("item--completed");
+
+    item.classList.toggle("item--completed", willBeCompleted);
+    setCheckboxState(checkboxButton, willBeCompleted);
+
+    refreshUI();
+
+    console.log("[toggle]", { willBeCompleted });
+  }
+
+  function setCheckboxState(checkboxButton, isCompleted) {
+    checkboxButton.classList.toggle("item__checkbox--checked", isCompleted);
+
+    const label = isCompleted
+      ? "Desmarcar como comprado"
+      : "Marcar como comprado";
+    checkboxButton.setAttribute("aria-label", label);
+
+    const existingIcon = checkboxButton.querySelector("img");
+
+    if (isCompleted && !existingIcon) {
+      const icon = document.createElement("img");
+      icon.src = "./assets/icons/itemcheck.svg";
+      icon.alt = "";
+      icon.setAttribute("aria-hidden", "true");
+      checkboxButton.appendChild(icon);
+    }
+
+    if (!isCompleted && existingIcon) {
+      existingIcon.remove();
+    }
+  }
+
   function updateStatsUI(stats) {
     elements.statTotal.textContent = stats.total;
     elements.statBought.textContent = stats.bought;
@@ -149,6 +263,10 @@
 
   function init() {
     if (!assertRequiredElements()) return;
+
+    elements.itemsList.addEventListener("click", handleItemsListClick);
+
+    elements.form.addEventListener("submit", handleFormSubmit);
 
     elements.qtyInput.addEventListener("blur", handleQtyBlur);
 
