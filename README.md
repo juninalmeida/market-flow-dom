@@ -117,8 +117,6 @@ A aplicação apresenta:
 
 ## 🎯 Destaques Técnicos
 
-## 🎯 Destaques Técnicos
-
 ### 1. Validação de Inputs com Regex
 
 O sistema de validação permite entrada progressiva enquanto digita, mas valida estritamente no submit:
